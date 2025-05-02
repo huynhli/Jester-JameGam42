@@ -42,9 +42,11 @@ public class Player : MonoBehaviour
             if (context.performed) {
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 15f);
                 jumpsRemaining--;
+                animator.SetTrigger("isJumping");
             } else if (context.canceled) {
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
                 jumpsRemaining--;
+                animator.SetTrigger("isJumping");
             }
         }
     }
