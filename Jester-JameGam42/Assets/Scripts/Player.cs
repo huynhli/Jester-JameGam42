@@ -7,12 +7,14 @@ public class Player : MonoBehaviour
     private Rigidbody2D playerRigidBody;
     private float baseHealth;
     public float healthMultiplier;
+    public Animator animator;
 
     [Header("Movement")]
     private float horizontalMovement;
     public float moveSpeedMultiplier;
     private float jumpsRemaining;
     public float maxJumps;
+    private bool facingRight;
 
     [Header("GroundCheck")]
     public Transform groundCheck;
@@ -27,6 +29,8 @@ public class Player : MonoBehaviour
         healthMultiplier = 1f;
         maxJumps = 2;
         jumpsRemaining = 2;
+        facingRight = true;
+        animator = GetComponent<Animator>();
     }
 
     public void Move(InputAction.CallbackContext context) {
@@ -49,10 +53,20 @@ public class Player : MonoBehaviour
     private void Update() {
         playerRigidBody.velocity = new Vector2(horizontalMovement * moveSpeedMultiplier, playerRigidBody.velocity.y);
         GroundChecker();
+        animator.SetFloat("xVelocity", Mathf.Abs(playerRigidBody.velocity.x));
+        animator.SetFloat("yVelocity", playerRigidBody.velocity.y);
+
     }
 
-    private void FixedUpdate() {
-
+    private void FixedUpdate() {   
+        if (horizontalMovement < 0 && facingRight) {
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+            facingRight = false;
+        }
+        if (horizontalMovement > 0 && !facingRight) {
+            transform.localScale = new Vector3(1f, 1f, 1f);
+            facingRight = true;
+        }
     }
 
     private void GroundChecker() {
