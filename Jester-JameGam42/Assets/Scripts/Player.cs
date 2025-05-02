@@ -33,6 +33,18 @@ public class Player : MonoBehaviour
         horizontalMovement = context.ReadValue<Vector2>().x;
     }
 
+    public void Jump(InputAction.CallbackContext context) {
+        if (jumpsRemaining > 0) {
+            if (context.performed) {
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 15f);
+                jumpsRemaining--;
+            } else if (context.canceled) {
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
+                jumpsRemaining--;
+            }
+        }
+    }
+
 
     private void Update() {
         playerRigidBody.velocity = new Vector2(horizontalMovement * moveSpeedMultiplier, playerRigidBody.velocity.y);
