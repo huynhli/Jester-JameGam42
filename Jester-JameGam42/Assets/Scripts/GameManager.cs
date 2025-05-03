@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     private List<DefenceCard> cardsInHand;
     public GameObject DefenceCardPrefab;
     public GameObject AttackCardPrefab;
+    public GameObject HandCardPrefab;
     public GameObject titleScreen;
     public GameObject youWinScreen;
 
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour {
         titleScreen.SetActive(true);
         youWinScreen.SetActive(false);
         Debug.Log("Game manager awake");
+        cardsInHand = new List<DefenceCard>();
         // AttackCardPrefab.enabled = false;
         // Pause();
         Play();
@@ -55,15 +57,16 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator RunLevel(int levelNumber) {
-        InvokeRepeating(nameof(SpawnAttackCard), 2.5f/levelNumber, 2.5f/levelNumber);
+        SpawnDefenseCards(levelNumber);
+        InvokeRepeating(nameof(SpawnAttackCard), 0.8f/levelNumber, 0.8f/levelNumber);
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(3f);
 
         CancelInvoke(nameof(SpawnAttackCard));
     }
 
     private void SpawnAttackCard() {
-        int random = UnityEngine.Random.Range(1, 14);
+        int random = UnityEngine.Random.Range(0, 13);
 
         bool goodSpotToSpawn = false;
         Vector2 direction = Vector2.zero;
@@ -80,12 +83,27 @@ public class GameManager : MonoBehaviour {
         GameObject summonedAttackCard = Instantiate(AttackCardPrefab, direction, Quaternion.identity);
         summonedAttackCard.GetComponent<AttackCard>().Initialize(random);
         Destroy(summonedAttackCard, 1f);
+
     }
 
-    public Vector2 pickDirection() {
+    private Vector2 pickDirection() {
         randomX = UnityEngine.Random.Range(-7.5f, 7.5f);
         randomY = UnityEngine.Random.Range(-2f, 2f);
         return new Vector2(randomX, randomY);
+    }
+
+    private void SpawnDefenseCards(int levelNum) {
+        int cardPositionInHand = cardsInHand.Count;
+        for (int counter = 0; counter <= levelNum; counter++) {
+            AddCardToHand(counter, cardPositionInHand);
+            cardPositionInHand++;
+        }
+    }
+
+    private void AddCardToHand(int counter, int cardPositionInHand) {
+        GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*cardPositionInHand)), -4f), Quaternion.identity);
+        cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
+        cardInHand.GetComponent<DefenceCard>().Initialize(counter);
     }
 
     public void UseDefenceCard(int cardInHandIndex, Vector2 lookDirection, Vector2 playerRigidBodyPosition) {
@@ -106,9 +124,9 @@ public class GameManager : MonoBehaviour {
     }
 
     private void UpdateCardsInHand() {
-        // for each in cardsInHand {
-        //      display at location based on total cards in hand --> cardsInHand.Length()
-        // }
+        for (int counter = 0; counter <cardsInHand; counter--) in cardsInHand {
+             display at location based on total cards in hand --> cardsInHand.Length()
+        }
     }
     
 }
