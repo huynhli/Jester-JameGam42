@@ -108,6 +108,7 @@ public class GameManager : MonoBehaviour {
         GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*cardPositionInHand)), -4f), Quaternion.identity);
         cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
         cardInHand.GetComponent<DefenceCard>().Initialize(counter);
+        cardsInHand.Add(cardInHand);  
     }
 
     public void UseDefenceCard(int cardInHandIndex, Vector2 lookDirection, Vector2 playerRigidBodyPosition) {

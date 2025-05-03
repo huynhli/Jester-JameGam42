@@ -43,7 +43,6 @@ public class Player : MonoBehaviour
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
         lookDirection = Vector2.zero;
         cardsInHandIndex = 0;
-        gameManager = GetComponent<GameManager>();
     }
 
     public void Move(InputAction.CallbackContext context) {
@@ -95,7 +94,7 @@ public class Player : MonoBehaviour
             gameManager.UseDefenceCard(cardsInHandIndex, lookDirection, playerRigidBody.position);
             cardsLeft--;
             // zero or end case
-            if (cardsLeft == cardsInHandIndex) {
+            if (cardsLeft > 0 && cardsLeft == cardsInHandIndex) {
                 cardsInHandIndex--;
             }
         }
@@ -143,7 +142,6 @@ public class Player : MonoBehaviour
         GroundChecker();
         animator.SetFloat("xVelocity", Mathf.Abs(playerRigidBody.velocity.x));
         animator.SetFloat("yVelocity", playerRigidBody.velocity.y);
-        // TODO display cards in hand as UI
     }
 
     private void FixedUpdate() {   
