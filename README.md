@@ -13,3 +13,8 @@ Create git repo and plan assets needed
 
 2/5/2025 4PM  
 Asset packs gathered
+
+2/5/2025 7PM  
+Coded base player and environment  
+Dinner break
+
