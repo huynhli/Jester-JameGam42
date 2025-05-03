@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour {
 
     public Player player;
     private Rigidbody2D playerRigidBody;
-    private List<DefenceCard> cardsInHand;
+    private List<GameObject> cardsInHand;
     public GameObject DefenceCardPrefab;
     public GameObject AttackCardPrefab;
     public GameObject HandCardPrefab;
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour {
         titleScreen.SetActive(true);
         youWinScreen.SetActive(false);
         Debug.Log("Game manager awake");
-        cardsInHand = new List<DefenceCard>();
+        cardsInHand = new List<GameObject>();
         maxCardsInHand = 3;
         // AttackCardPrefab.enabled = false;
         // Pause();
@@ -108,19 +108,21 @@ public class GameManager : MonoBehaviour {
         GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*cardPositionInHand)), -4f), Quaternion.identity);
         cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
         cardInHand.GetComponent<DefenceCard>().Initialize(counter);
-        cardsInHand.Add(cardInHand);  
+        cardsInHand.Add(cardInHand);
     }
 
     public void UseDefenceCard(int cardInHandIndex, Vector2 lookDirection, Vector2 playerRigidBodyPosition) {
         // summon as defence card
-        DefenceCard selectedCard = cardsInHand[cardInHandIndex];
+        DefenceCard selectedCard = cardsInHand[cardInHandIndex].GetComponent<DefenceCard>();
         cardsInHand.RemoveAt(cardInHandIndex);
         
-        UpdateCardsInHand();
 
         GameObject summonedDefendCard = Instantiate(DefenceCardPrefab, playerRigidBodyPosition + lookDirection.normalized * 3f, Quaternion.LookRotation(lookDirection));
         summonedDefendCard.GetComponent<DefenceCard>().Initialize(selectedCard.GetHealth());
-        Destroy(summonedDefendCard, 10f); // destroys object after 10 seconds
+        Destroy(summonedDefendCard, 1.5f); // destroys object after 1.5 seconds
+        Destroy(selectedCard); 
+        player.cardsLeft--;
+        UpdateCardsInHand(cardInHandIndex); // re-instantiate the hand? or instantiate from index
     }
 
     public void Pause() {
@@ -128,10 +130,25 @@ public class GameManager : MonoBehaviour {
         player.enabled = false;
     }
 
-    private void UpdateCardsInHand() {
-        // for (int counter = 0; counter <cardsInHand; counter--) in cardsInHand {
-        //      display at location based on total cards in hand --> cardsInHand.Length()
+    private void UpdateCardsInHand(int cardInHandIndex) {
+        // edge case at end of list
+        // if (cardInHandIndex == cardsInHand.Count) {
+        //     cardInHandIndex--;
+        //     return;
+        // // edge case no cards left
+        // } else if (cardsInHand.Count == 0) {
+        //     return;
+        // } else {
+        // // can destroy all and reform list    not this
+        // // or can destroy single and shift all right elements to the left by one (single already destroyed, list updated, so just destroy and instantiate starting at counter)
+        //     for (int counter = cardInHandIndex; counter < cardsInHand.Count; counter++) {
+        //         int tempCardHealth = cardsInHand[counter].GetComponent<DefenceCard>().GetHealth(); 
+        //         Destroy(cardsInHand[counter]);
+        //         AddCardToHand(tempCardHealth, counter);
+        //     }
         // }
     }
+
+
     
 }
