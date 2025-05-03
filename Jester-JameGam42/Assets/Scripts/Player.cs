@@ -16,12 +16,15 @@ public class Player : MonoBehaviour
     private float jumpsRemaining;
     public float maxJumps;
     private bool facingRight;
-    private bool crouching;
 
     [Header("GroundCheck")]
     public Transform groundCheck;
     public LayerMask groundLayer;
     public Vector2 groundCheckSize = new Vector2(0.5f, 0.5f);
+
+    [Header("Firing")]
+    private Vector2 lookDirection;
+    public float cardsLeft;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -35,7 +38,8 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         playerBoxCollider = GetComponent<BoxCollider2D>();
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
-        crouching = false;
+        lookDirection = new Vector2(1f, 0f);
+        cardsLeft = 0;
     }
 
     public void Move(InputAction.CallbackContext context) {
@@ -57,26 +61,33 @@ public class Player : MonoBehaviour
     }
 
     public void Crouch(InputAction.CallbackContext context) {
-        if (context.performed) {
-            if (!crouching) {
-                playerBoxCollider.size = new Vector2(0.75f, 0.6f);
-                playerBoxCollider.offset = new Vector2(-0.05f, -0.4f);
-                moveSpeedMultiplier = 1f;
-                animator.SetBool("isCrouching", true);
-                crouching = true;
-            } else if (crouching) {
-                playerBoxCollider.size = new Vector2(0.75f, 1.2f);
-                playerBoxCollider.offset = new Vector2(-0.05f, -0.11f);
-                
-                moveSpeedMultiplier = 5f;
-                animator.SetBool("isCrouching", false);
-                crouching = false;
-            }
+        if (Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer) && context.performed) {
+            
+            
+            playerBoxCollider.size = new Vector2(0.75f, 0.6f);
+            playerBoxCollider.offset = new Vector2(-0.05f, -0.4f);
+            moveSpeedMultiplier = 1f;
+            animator.SetBool("isCrouching", true);
         }
+        if (context.canceled) {
+            playerBoxCollider.size = new Vector2(0.75f, 1.2f);
+            playerBoxCollider.offset = new Vector2(-0.05f, -0.11f);
+
+            moveSpeedMultiplier = 5f;
+            animator.SetBool("isCrouching", false);
+        }
+        
+    }
+
+    public void Look(InputAction.CallbackContext context) {
+        lookDirection = context.ReadValue<Vector2>();
     }
 
     public void Fire(InputAction.CallbackContext context) {
-        // if(cardsLeft == 0)
+        // set animation, set blocker
+        if(cardsLeft == 0) {
+            
+        }
     }
 
 
