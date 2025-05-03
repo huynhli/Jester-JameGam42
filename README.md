@@ -18,6 +18,8 @@ Asset packs gathered
 Coded base player and environment  
 Dinner break
 
-2/5/2025 11PM
+2/5/2025 11PM  
 Coding enemy "card" logic and game manager  
 
+3/5/2025 1230AM  
+Break to take care of sourdough starter and myself  
