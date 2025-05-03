@@ -28,6 +28,7 @@ public class Player : MonoBehaviour
     private float attackType;
     private int cardsInHandIndex;
     public GameManager gameManager;
+    public Camera mainCamera;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -41,7 +42,7 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         playerBoxCollider = GetComponent<BoxCollider2D>();
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
-        lookDirection = Vector2.zero;
+        lookDirection = Vector2.right;
         cardsInHandIndex = 0;
     }
 
@@ -80,7 +81,9 @@ public class Player : MonoBehaviour
     }
 
     public void Look(InputAction.CallbackContext context) {
-        lookDirection = context.ReadValue<Vector2>();
+        Vector2 mouseScreenPos = context.ReadValue<Vector2>();
+        Vector2 worldMousePos = mainCamera.ScreenToWorldPoint(mouseScreenPos);
+        lookDirection = worldMousePos - playerRigidBody.position;
     }
 
     public void Fire(InputAction.CallbackContext context) {
@@ -92,7 +95,6 @@ public class Player : MonoBehaviour
             setAttackType(lookDirection);
             animator.SetFloat("AttackType", attackType);
             gameManager.UseDefenceCard(cardsInHandIndex, lookDirection, playerRigidBody.position);
-            cardsLeft--;
             // zero or end case
             if (cardsLeft > 0 && cardsLeft == cardsInHandIndex) {
                 cardsInHandIndex--;

@@ -964,6 +964,7 @@ MonoBehaviour:
   groundCheckSize: {x: 0.5, y: 0.5}
   cardsLeft: 0
   gameManager: {fileID: 2096246648}
+  mainCamera: {fileID: 519420031}
 --- !u!95 &247220151
 Animator:
   serializedVersion: 5

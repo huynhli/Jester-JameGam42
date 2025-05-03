@@ -116,8 +116,8 @@ public class GameManager : MonoBehaviour {
         DefenceCard selectedCard = cardsInHand[cardInHandIndex].GetComponent<DefenceCard>();
         cardsInHand.RemoveAt(cardInHandIndex);
         
-
-        GameObject summonedDefendCard = Instantiate(DefenceCardPrefab, playerRigidBodyPosition + lookDirection.normalized * 3f, Quaternion.LookRotation(lookDirection));
+        float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
+        GameObject summonedDefendCard = Instantiate(DefenceCardPrefab, playerRigidBodyPosition + lookDirection.normalized, Quaternion.Euler(0, 0, angle));
         summonedDefendCard.GetComponent<DefenceCard>().Initialize(selectedCard.GetHealth());
         Destroy(summonedDefendCard, 1.5f); // destroys object after 1.5 seconds
         Destroy(selectedCard); 
