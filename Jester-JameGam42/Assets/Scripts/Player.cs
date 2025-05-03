@@ -24,7 +24,10 @@ public class Player : MonoBehaviour
 
     [Header("Firing")]
     private Vector2 lookDirection;
-    public float cardsLeft;
+    private int cardsLeft;
+    private float attackType;
+    private int cardsInHandIndex;
+    public GameManager gameManager;
 
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody2D>();
@@ -38,8 +41,9 @@ public class Player : MonoBehaviour
         animator = GetComponent<Animator>();
         playerBoxCollider = GetComponent<BoxCollider2D>();
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
-        lookDirection = new Vector2(1f, 0f);
-        cardsLeft = 0;
+        lookDirection = Vector2.zero;
+        cardsInHandIndex = 0;
+        gameManager = GetComponent<GameManager>();
     }
 
     public void Move(InputAction.CallbackContext context) {
@@ -62,8 +66,6 @@ public class Player : MonoBehaviour
 
     public void Crouch(InputAction.CallbackContext context) {
         if (Physics2D.OverlapBox(groundCheck.position, groundCheckSize, 0, groundLayer) && context.performed) {
-            
-            
             playerBoxCollider.size = new Vector2(0.75f, 0.6f);
             playerBoxCollider.offset = new Vector2(-0.05f, -0.4f);
             moveSpeedMultiplier = 1f;
@@ -72,7 +74,6 @@ public class Player : MonoBehaviour
         if (context.canceled) {
             playerBoxCollider.size = new Vector2(0.75f, 1.2f);
             playerBoxCollider.offset = new Vector2(-0.05f, -0.11f);
-
             moveSpeedMultiplier = 5f;
             animator.SetBool("isCrouching", false);
         }
@@ -86,17 +87,63 @@ public class Player : MonoBehaviour
     public void Fire(InputAction.CallbackContext context) {
         // set animation, set blocker
         if(cardsLeft == 0) {
-            
+            animator.SetFloat("AttackType", 0);
+        } else if (context.performed) {
+            // set animation
+            setAttackType(lookDirection);
+            animator.SetFloat("AttackType", attackType);
+            gameManager.UseDefenceCard(cardsInHandIndex, lookDirection, playerRigidBody.position);
+            cardsLeft--;
+            // zero or end case
+            if (cardsLeft == cardsInHandIndex) {
+                cardsInHandIndex--;
+            }
         }
     }
 
+    public void SelectCardToRight() {
+        if (cardsInHandIndex + 1 == cardsLeft) {
+            cardsInHandIndex = 0;
+        } else {
+            cardsInHandIndex++;
+        }
+    }
+
+    public void SelectCardToLeft() {
+        if (cardsInHandIndex == 0) {
+            cardsInHandIndex = cardsLeft - 1;
+        } else {
+            cardsInHandIndex--;
+        }
+
+    }
+
+    public void AlternateFire(InputAction.CallbackContext context) {
+        // TODO if right click, shoot the card in a thin line --> if collides with card circle, 
+    }
+
+    private void setAttackType(Vector2 directionLooking) {
+        // look right
+        if (directionLooking.x >= 0) {
+
+        }
+        attackType = 1;
+        // look left
+        // look up
+        // look down
+    }
+
+    public void ResetPlayer() {
+        transform.position = new Vector3(0, 0, 0);
+        playerRigidBody.velocity = Vector2.zero;        // Reset velocity to 0
+    }
 
     private void Update() {
         playerRigidBody.velocity = new Vector2(horizontalMovement * moveSpeedMultiplier, playerRigidBody.velocity.y);
         GroundChecker();
         animator.SetFloat("xVelocity", Mathf.Abs(playerRigidBody.velocity.x));
         animator.SetFloat("yVelocity", playerRigidBody.velocity.y);
-
+        // TODO display cards in hand as UI
     }
 
     private void FixedUpdate() {   
