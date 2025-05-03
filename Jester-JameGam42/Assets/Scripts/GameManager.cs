@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour {
     public GameObject HandCardPrefab;
     public GameObject titleScreen;
     public GameObject youWinScreen;
+    private int maxCardsInHand;
 
     private float randomX;
     private float randomY;
@@ -27,6 +28,7 @@ public class GameManager : MonoBehaviour {
         youWinScreen.SetActive(false);
         Debug.Log("Game manager awake");
         cardsInHand = new List<DefenceCard>();
+        maxCardsInHand = 3;
         // AttackCardPrefab.enabled = false;
         // Pause();
         Play();
@@ -59,15 +61,12 @@ public class GameManager : MonoBehaviour {
     private IEnumerator RunLevel(int levelNumber) {
         SpawnDefenseCards(levelNumber);
         InvokeRepeating(nameof(SpawnAttackCard), 0.8f/levelNumber, 0.8f/levelNumber);
-
         yield return new WaitForSeconds(3f);
-
         CancelInvoke(nameof(SpawnAttackCard));
     }
 
     private void SpawnAttackCard() {
         int random = UnityEngine.Random.Range(0, 13);
-
         bool goodSpotToSpawn = false;
         Vector2 direction = Vector2.zero;
         playerRigidBody = player.GetComponent<Rigidbody2D>();
@@ -79,7 +78,6 @@ public class GameManager : MonoBehaviour {
                 goodSpotToSpawn = true;
             } 
         }
-
         GameObject summonedAttackCard = Instantiate(AttackCardPrefab, direction, Quaternion.identity);
         summonedAttackCard.GetComponent<AttackCard>().Initialize(random);
         Destroy(summonedAttackCard, 1f);
@@ -94,8 +92,14 @@ public class GameManager : MonoBehaviour {
 
     private void SpawnDefenseCards(int levelNum) {
         int cardPositionInHand = cardsInHand.Count;
-        for (int counter = 0; counter <= levelNum; counter++) {
-            AddCardToHand(counter, cardPositionInHand);
+        if (cardPositionInHand >= maxCardsInHand) {
+            return;
+        }
+        int cardsToAdd = Mathf.Min(levelNum + 1, maxCardsInHand - cardPositionInHand);
+
+        for (int i = 0; i < cardsToAdd; i++) {
+            AddCardToHand(i, cardPositionInHand);
+            player.cardsLeft++;
             cardPositionInHand++;
         }
     }
@@ -124,9 +128,9 @@ public class GameManager : MonoBehaviour {
     }
 
     private void UpdateCardsInHand() {
-        for (int counter = 0; counter <cardsInHand; counter--) in cardsInHand {
-             display at location based on total cards in hand --> cardsInHand.Length()
-        }
+        // for (int counter = 0; counter <cardsInHand; counter--) in cardsInHand {
+        //      display at location based on total cards in hand --> cardsInHand.Length()
+        // }
     }
     
 }

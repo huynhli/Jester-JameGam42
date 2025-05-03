@@ -24,7 +24,7 @@ public class Player : MonoBehaviour
 
     [Header("Firing")]
     private Vector2 lookDirection;
-    private int cardsLeft;
+    public int cardsLeft;
     private float attackType;
     private int cardsInHandIndex;
     public GameManager gameManager;
