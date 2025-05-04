@@ -280,7 +280,7 @@ public class GameManager : MonoBehaviour {
         deathScreen.enabled = false;
         player.animator.SetBool("died", false);
         player.enabled = false;
-        SoundManager.instance.PlaySoundFXClip(titleSoundClip, transform, 1f);
+        SoundManager.instance.PlayLoopMusic(titleSoundClip, transform, 0.25f);
         cardsInHand.Clear();
         player.Reset();
         isDead = false;
