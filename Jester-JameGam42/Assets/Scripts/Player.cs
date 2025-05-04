@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     private int cardsInHandIndex;
     public GameManager gameManager;
     public Camera mainCamera;
+    public GameObject selector;
 
     [Header("Sound FX")]
     [SerializeField] private AudioClip selectSoundClip;
@@ -111,6 +112,8 @@ public class Player : MonoBehaviour
                 // edge case
                 if (cardsLeft > 0 && cardsLeft == cardsInHandIndex) {
                     cardsInHandIndex--;
+                    selector.transform.position = new Vector2(-4f + (1.5f * cardsInHandIndex), -3.4f);
+                    selector.GetComponent<SpriteRenderer>().sortingOrder = 100;
                 }
                 
             }
@@ -121,10 +124,14 @@ public class Player : MonoBehaviour
     public void SelectCardToRight(InputAction.CallbackContext context) {
         if(context.performed) {
             SoundManager.instance.PlaySoundFXClip(selectSoundClip, transform, 4f);
-            if (cardsInHandIndex + 1 == cardsLeft) {
+            if (cardsLeft == 0) {
+                return;
+            } else if (cardsInHandIndex + 1 == cardsLeft) {
                 cardsInHandIndex = 0;
+                selector.transform.position = new Vector2(-4f + (1.5f * cardsInHandIndex), -3.4f);
             } else {
                 cardsInHandIndex++;
+                selector.transform.position = new Vector2(-4f + (1.5f * cardsInHandIndex), -3.4f);
             }
         }
     }
@@ -132,10 +139,16 @@ public class Player : MonoBehaviour
     public void SelectCardToLeft(InputAction.CallbackContext context) {
         if(context.performed) {
             SoundManager.instance.PlaySoundFXClip(selectSoundClip, transform, 4f);
-             if (cardsInHandIndex == 0) {
-            cardsInHandIndex = cardsLeft - 1;
+            if (cardsLeft == 0) {
+                return;
+            } else if (cardsInHandIndex == 0) {
+                cardsInHandIndex = cardsLeft - 1;
+                selector.transform.position = new Vector2(-4f + (1.5f * cardsInHandIndex), -3.4f);
+                selector.GetComponent<SpriteRenderer>().sortingOrder = 100;
             } else {
                 cardsInHandIndex--;
+                selector.transform.position = new Vector2(-4f + (1.5f * cardsInHandIndex), -3.4f);
+                selector.GetComponent<SpriteRenderer>().sortingOrder = 100;
             }
         }
         

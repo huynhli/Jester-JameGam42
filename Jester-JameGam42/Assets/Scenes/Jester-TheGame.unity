@@ -1165,6 +1165,7 @@ MonoBehaviour:
   cardsLeft: 0
   gameManager: {fileID: 2096246648}
   mainCamera: {fileID: 519420031}
+  selector: {fileID: 0}
   selectSoundClip: {fileID: 8300000, guid: 499dc6647d3013842b1c8876528a1ef6, type: 3}
   emptyAttackSoundClip: {fileID: 8300000, guid: 239f02cf9e1f29b4897e836be1ba7880, type: 3}
   jumpSoundClip: {fileID: 8300000, guid: e945ef76bc49c6a40a25cc37ecf448e3, type: 3}

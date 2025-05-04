@@ -169,7 +169,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private void AddCardToHand(int spritePicker, int cardPositionInHand) {
-        GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*cardPositionInHand)), -4f), Quaternion.identity);
+        GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*cardPositionInHand)), -4.5f), Quaternion.identity);
         cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
         cardInHand.GetComponent<DefenceCard>().Initialize(spritePicker);
         cardsInHand.Add(cardInHand);
@@ -232,7 +232,7 @@ public class GameManager : MonoBehaviour {
         } else {
             for (int counter = cardInHandIndex; counter < cardsInHand.Count; counter++) {
                 GameObject card = cardsInHand[counter];
-                card.transform.position = new Vector2(-4f + (1.5f * counter), -4f);
+                card.transform.position = new Vector2(-4f + (1.5f * counter), -4.5f);
             }
         }
     }
