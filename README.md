@@ -23,3 +23,15 @@ Coding enemy "card" logic and game manager
 
 3/5/2025 1230AM  
 Break to take care of sourdough starter and myself  
+
+3/5/2025 6PM
+Resume work
+Work out spawning card objects
+
+3/5/2025 10PM
+Schedule1 break
+Finish collision and object interactions
+
+4/5/2025 4AM
+Finish UI and game flow
+Final stretch!
