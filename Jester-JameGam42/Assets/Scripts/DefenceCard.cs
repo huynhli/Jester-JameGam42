@@ -6,6 +6,7 @@ public class DefenceCard : MonoBehaviour
 {
     // Start is called before the first frame update
     private int cardHealth;
+    public int spriteNum;
     public Sprite[] cardSprites;
     private SpriteRenderer spriteRenderer;
 
@@ -19,6 +20,14 @@ public class DefenceCard : MonoBehaviour
 
     public void Initialize(int random) {
         spriteRenderer.sprite = cardSprites[random];
-        cardHealth = random;
+        spriteNum = random;
+        cardHealth = random + 2;
+    }
+    
+    public void changeHealth(int newHealth) {
+        cardHealth = newHealth;
+        spriteNum = newHealth-2;
+        spriteRenderer.sprite = cardSprites[spriteNum];
+        spriteRenderer.sortingOrder = spriteRenderer.sortingOrder;
     }
 }

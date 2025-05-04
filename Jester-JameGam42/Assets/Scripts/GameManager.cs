@@ -49,11 +49,11 @@ public class GameManager : MonoBehaviour {
 
     // Level Flow and timings
     private IEnumerator LevelFlow() {
-        yield return new WaitForSeconds(5f);
+        // yield return new WaitForSeconds(5f);
         yield return StartCoroutine(RunLevel(1));
 
         yield return new WaitForSeconds(10f);
-        yield return StartCoroutine(RunLevel(2));
+        yield return StartCoroutine(RunLevel(1));
 
         yield return new WaitForSeconds(10f);
         yield return StartCoroutine(RunLevel(3));
@@ -63,8 +63,8 @@ public class GameManager : MonoBehaviour {
 
     private IEnumerator RunLevel(int levelNumber) {
         SpawnDefenseCards(levelNumber);
-        InvokeRepeating(nameof(SpawnAttackCard), 0.8f/levelNumber, 0.8f/levelNumber);
-        yield return new WaitForSeconds(3f);
+        InvokeRepeating(nameof(SpawnAttackCard), 1.6f/levelNumber, 1.6f/levelNumber);
+        yield return new WaitForSeconds(5f);
         CancelInvoke(nameof(SpawnAttackCard));
     }
 
@@ -73,19 +73,19 @@ public class GameManager : MonoBehaviour {
     private void SpawnAttackCard() {
         int random = UnityEngine.Random.Range(0, 13);
         bool goodSpotToSpawn = false;
-        Vector2 direction = Vector2.zero;
+        Vector2 direction = Vector2.left;
+        Vector2 directionToPlayer = Vector2.right;
         playerRigidBody = player.GetComponent<Rigidbody2D>();
         while (!goodSpotToSpawn) {
             direction = pickDirectionHelper();
-            Vector2 directionToPlayer = direction - new Vector2(playerRigidBody.position.x, playerRigidBody.position.y);
+            directionToPlayer = direction - new Vector2(playerRigidBody.position.x, playerRigidBody.position.y);
             float magDir = directionToPlayer.magnitude; 
             if (magDir > 2) {
                 goodSpotToSpawn = true;
             } 
         }
         GameObject summonedAttackCard = Instantiate(AttackCardPrefab, direction, Quaternion.identity);
-        summonedAttackCard.GetComponent<AttackCard>().Initialize(random);
-        Destroy(summonedAttackCard, 1f);
+        summonedAttackCard.GetComponent<AttackCard>().Initialize(random, directionToPlayer);
     }
 
     private Vector2 pickDirectionHelper() {
@@ -101,9 +101,9 @@ public class GameManager : MonoBehaviour {
         if (cardPositionInHand >= maxCardsInHand) {
             return;
         }
-        int cardsToAdd = Mathf.Min(levelNum + 1, maxCardsInHand - cardPositionInHand);
+        int cardsToAdd = Mathf.Min(levelNum + 2, maxCardsInHand - cardPositionInHand);
         for (int i = 0; i < cardsToAdd; i++) {
-            AddCardToHand(i, player.cardsLeft);
+            AddCardToHand(12, player.cardsLeft);
             player.cardsLeft++;
         }
     }
@@ -113,25 +113,20 @@ public class GameManager : MonoBehaviour {
         cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
         cardInHand.GetComponent<DefenceCard>().Initialize(spritePicker);
         cardsInHand.Add(cardInHand);
-        Debug.Log(string.Join(", ", cardsInHand.Select(card => card.name)));
     }
 
 
     // use defence card from hand and spawn it in level
     public void UseDefenceCard(int cardInHandIndex, Vector2 lookDirection, Vector2 playerRigidBodyPosition) {
-        
-        Debug.Log("Want to use defence card");
-        cardInHandIndex = 0;
         // get defence card from hand
         DefenceCard selectedCard = cardsInHand[cardInHandIndex].GetComponent<DefenceCard>();
         
         // summon hand card as defence card
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         GameObject summonedDefendCard = Instantiate(DefenceCardPrefab, playerRigidBodyPosition + lookDirection.normalized, Quaternion.Euler(0, 0, angle));
-        summonedDefendCard.GetComponent<DefenceCard>().Initialize(selectedCard.GetHealth());
+        summonedDefendCard.GetComponent<DefenceCard>().Initialize(selectedCard.spriteNum);
+        Debug.Log(selectedCard.GetHealth());
         Destroy(summonedDefendCard, 1.5f); // destroys object after 1.5 seconds
-
-        Debug.Log("Used defence card");
 
         UpdateCardsInHand(cardInHandIndex); // re-instantiate the hand? or instantiate from index
     }
@@ -157,26 +152,10 @@ public class GameManager : MonoBehaviour {
             return;
         
         } else {
-            Debug.Log("running the else");
-        // else, not end of list, still cards left, so shift rest of the cards over (list is already updated, just destroy old and instantiate new starting at index)
-        // can destroy all and reform list    not this
-        // or can destroy single and shift all right elements to the left by one (single already destroyed, list updated, so just destroy and instantiate starting at counter)
             for (int counter = cardInHandIndex; counter < cardsInHand.Count; counter++) {
-                // destroy old game object
-                int tempCardHealth = cardsInHand[counter].GetComponent<DefenceCard>().GetHealth(); 
-                Destroy(cardsInHand[counter]);
-
-                // crete new game object at new position
-                GameObject cardInHand = Instantiate(HandCardPrefab, new Vector2((-4f + (1.5f*counter)), -4f), Quaternion.identity);
-                cardInHand.GetComponent<SpriteRenderer>().sortingOrder = 10;
-                cardInHand.GetComponent<DefenceCard>().Initialize(tempCardHealth);
-
-                // replace list object with new pointer
-                cardsInHand.RemoveAt(counter);
-                cardsInHand.Insert(counter, cardInHand);
+                GameObject card = cardsInHand[counter];
+                card.transform.position = new Vector2(-4f + (1.5f * counter), -4f);
             }
-            Debug.Log("After update, cardInHandIndex is: " + cardInHandIndex + " and cards in hand looks like:");
-            Debug.Log(string.Join(", ", cardsInHand.Select(card => card.name)));
         }
     }
 

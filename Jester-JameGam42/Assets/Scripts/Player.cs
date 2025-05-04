@@ -102,20 +102,26 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void SelectCardToRight() {
-        if (cardsInHandIndex + 1 == cardsLeft) {
-            cardsInHandIndex = 0;
-        } else {
-            cardsInHandIndex++;
+    public void SelectCardToRight(InputAction.CallbackContext context) {
+        if(context.performed) {
+            if (cardsInHandIndex + 1 == cardsLeft) {
+                cardsInHandIndex = 0;
+            } else {
+                cardsInHandIndex++;
+            }
         }
     }
 
-    public void SelectCardToLeft() {
-        if (cardsInHandIndex == 0) {
+    public void SelectCardToLeft(InputAction.CallbackContext context) {
+        if(context.performed) {
+             if (cardsInHandIndex == 0) {
             cardsInHandIndex = cardsLeft - 1;
-        } else {
-            cardsInHandIndex--;
+            } else {
+                cardsInHandIndex--;
+            }
         }
+        
+       
 
     }
 
