@@ -6,16 +6,32 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour {
 
+    [Header("Player")]
     public Player player;
     private Rigidbody2D playerRigidBody;
-    private List<GameObject> cardsInHand;
+
+    [Header("Prefabs")]
     public GameObject DefenceCardPrefab;
     public GameObject AttackCardPrefab;
     public GameObject HandCardPrefab;
-    public GameObject titleScreen;
-    public GameObject youWinScreen;
-    private int maxCardsInHand;
 
+    [Header("Screens")]
+    public Canvas titleScreen;
+    public Canvas introScreen;
+    public Canvas controlsScreen;
+    
+    public Canvas healthBanner;
+    public Canvas deathScreen;
+    
+    public Canvas youWinScreen;
+    
+    public Canvas creditScreen;
+
+    [Header("Game Logic")]
+    public GameObject startButton;
+    private Coroutine levelFlowCoroutine;
+    private List<GameObject> cardsInHand;
+    private int maxCardsInHand;
     private float randomX;
     private float randomY;
 
@@ -24,39 +40,62 @@ public class GameManager : MonoBehaviour {
     private void Awake(){
         Application.targetFrameRate = 60;
         randomX = 0f;
-        randomY = 0f;
-        titleScreen.SetActive(true);
-        youWinScreen.SetActive(false);
+        enabled = false;
+        titleScreen.enabled = true;
+        startButton.SetActive(true);
+        introScreen.enabled = false;
+        controlsScreen.enabled = false;
+        healthBanner.enabled = false;
+        deathScreen.enabled = false;
+        youWinScreen.enabled = false;
+        creditScreen.enabled = false;
         cardsInHand = new List<GameObject>();
         maxCardsInHand = 5;
-        // Pause();
-        Play();
+        Debug.Log("Awake");
+        Pause();
     }
 
     public void Play(){
-        Debug.Log("Playing");
-        // player.ResetPlayer();
-        titleScreen.SetActive(false);
+        StartCoroutine(GameFlow());
 
-        Time.timeScale = 1f;
-        // player.enabled = true;
-
-        StartCoroutine(LevelFlow());
     }
 
+    private IEnumerator GameFlow() {
+        Time.timeScale = 1f;
+        yield return StartCoroutine(IntroFlow());
+
+        healthBanner.enabled = true;
+        player.enabled = true;
+
+        levelFlowCoroutine = StartCoroutine(LevelFlow());
+        yield return levelFlowCoroutine;
+
+        yield return StartCoroutine(WinnerFlow());
+
+    }
+
+    private IEnumerator IntroFlow() {
+        titleScreen.enabled = false;
+        startButton.SetActive(false);
+        introScreen.enabled = true;
+        yield return new WaitForSeconds(4f);
+        introScreen.enabled = false;
+        controlsScreen.enabled = true;
+        yield return new WaitForSeconds(5f);
+        controlsScreen.enabled = false;
+    }
 
     // Level Flow and timings
     private IEnumerator LevelFlow() {
-        // yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(RunLevel(1));
 
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(RunLevel(1));
 
-        yield return new WaitForSeconds(10f);
-        yield return StartCoroutine(RunLevel(3));
-
-        youWinScreen.SetActive(true);
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(RunLevel(2));
+        yield return new WaitForSeconds(3f);
     }
 
     private IEnumerator RunLevel(int levelNumber) {
@@ -130,8 +169,22 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Pause() {
+        Debug.Log("Pause");
         Time.timeScale = 0f; // time doesn't update
         player.enabled = false;
+    }
+
+    private IEnumerator WinnerFlow() {
+        healthBanner.enabled = false;
+        player.enabled = false;
+        youWinScreen.enabled = true;
+        yield return new WaitForSeconds(3f);
+        youWinScreen.enabled = false;
+        creditScreen.enabled = true;
+        yield return new WaitForSeconds(5f);
+        creditScreen.enabled = false;
+        titleScreen.enabled = true;
+        startButton.SetActive(true);
     }
 
     private void UpdateCardsInHand(int cardInHandIndex) {
@@ -160,16 +213,25 @@ public class GameManager : MonoBehaviour {
 
     private void FixedUpdate() {
         if (player.totalHealth <= 0) {
-            EndGame();
+            StartCoroutine(Dead());
         }
     }
 
-    private IEnumerator EndGame() {
+    private IEnumerator Dead() {
+        if (levelFlowCoroutine != null) {
+            StopCoroutine(levelFlowCoroutine);
+        }
         Pause();
-        youWinScreen.SetActive(true);
+        healthBanner.enabled = false;
+        player.enabled = true;
+        player.animator.SetTrigger("died");
+        yield return new WaitForSeconds(5f); // duration of death animation
+        deathScreen.enabled = true;
         yield return new WaitForSeconds(5f);
-        youWinScreen.SetActive(false);
-        titleScreen.SetActive(true);
-        cardsInHand = new List<GameObject>();
+        deathScreen.enabled = false;
+        titleScreen.enabled = true;
+        startButton.SetActive(true);
+        cardsInHand.Clear();
+        player.Reset();
     }
 }

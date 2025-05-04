@@ -34,7 +34,7 @@ public class Player : MonoBehaviour
     public GameManager gameManager;
     public Camera mainCamera;
 
-    private void Awake() {
+    private void OnEnable() {
         playerRigidBody = GetComponent<Rigidbody2D>();
         horizontalMovement = 0f;
         moveSpeedMultiplier = 7f;
@@ -58,11 +58,11 @@ public class Player : MonoBehaviour
     public void Jump(InputAction.CallbackContext context) {
         if (jumpsRemaining > 0) {
             if (context.performed) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 16f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 20f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
             } else if (context.canceled) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 10f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
             }
@@ -178,6 +178,23 @@ public class Player : MonoBehaviour
 
     public void Knockback(Vector2 directionToKnock, int magnitude) {
         playerRigidBody.AddForce(directionToKnock*magnitude*500);
+    }
+
+    public void Reset() {
+        playerRigidBody = GetComponent<Rigidbody2D>();
+        horizontalMovement = 0f;
+        moveSpeedMultiplier = 7f;
+        baseHealth = 100f;
+        healthMultiplier = 1f;
+        totalHealth = baseHealth * healthMultiplier;
+        maxJumps = 2;
+        jumpsRemaining = 2;
+        facingRight = true;
+        animator = GetComponent<Animator>();
+        playerBoxCollider = GetComponent<BoxCollider2D>();
+        playerBoxCollider.size = new Vector2(0.75f, 1.2f);
+        lookDirection = Vector2.right;
+        cardsInHandIndex = 0;
     }
 
     public void UpdateHealth(float dmgTaken) {
