@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour {
     private int maxCardsInHand;
     private float randomX;
     private float randomY;
+    private Coroutine attackSpawnCoroutine;
 
     
 
@@ -91,23 +92,32 @@ public class GameManager : MonoBehaviour {
         yield return StartCoroutine(RunLevel(1));
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(RunLevel(1));
+        yield return StartCoroutine(RunLevel(2));
 
         yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(RunLevel(2));
+        yield return StartCoroutine(RunLevel(3));
         yield return new WaitForSeconds(3f);
     }
 
     private IEnumerator RunLevel(int levelNumber) {
         SpawnDefenseCards(levelNumber);
-        InvokeRepeating(nameof(SpawnAttackCard), 1.6f/levelNumber, 1.6f/levelNumber);
+        attackSpawnCoroutine = StartCoroutine(SpawnAttackCardRepeatedly(1.6f / levelNumber, levelNumber));
         yield return new WaitForSeconds(5f);
-        CancelInvoke(nameof(SpawnAttackCard));
+        if (attackSpawnCoroutine != null) {
+            StopCoroutine(attackSpawnCoroutine);
+        }
     }
 
+    private IEnumerator SpawnAttackCardRepeatedly(float interval, int level) {
+        while (true) {
+            SpawnAttackCard(level);
+            yield return new WaitForSeconds(interval);
+        }
+    }
 
     // Spawn attack cards
-    private void SpawnAttackCard() {
+    private void SpawnAttackCard(int level) {
+        // lemon juice
         int random = UnityEngine.Random.Range(0, 13);
         bool goodSpotToSpawn = false;
         Vector2 direction = Vector2.left;
@@ -122,7 +132,7 @@ public class GameManager : MonoBehaviour {
             } 
         }
         GameObject summonedAttackCard = Instantiate(AttackCardPrefab, direction, Quaternion.identity);
-        summonedAttackCard.GetComponent<AttackCard>().Initialize(random, directionToPlayer);
+        summonedAttackCard.GetComponent<AttackCard>().Initialize(random, directionToPlayer.normalized*level);
     }
 
     private Vector2 pickDirectionHelper() {

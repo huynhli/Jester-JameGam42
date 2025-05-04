@@ -24,7 +24,7 @@ public class AttackCard : MonoBehaviour
         spriteRenderer.sprite = attackSprites[random];
         spriteNum = random;
         cardHealth = random + 2;
-        directionToShoot = -directionToPlayer.normalized;
+        directionToShoot = -directionToPlayer;
         StartCoroutine(MoveAfterDelay());
     }
 
