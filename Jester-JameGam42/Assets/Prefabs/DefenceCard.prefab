@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 628562251637088082}
   - component: {fileID: 4794974199069857873}
   - component: {fileID: 5913755575533290114}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: DefenceCard
   m_TagString: DefenceCard
   m_Icon: {fileID: 0}
@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298c9d69fa76ea34d8e60038360f5abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteNum: 0
   cardSprites:
   - {fileID: 21300000, guid: d298cffd6c63d124d8b6101f8dd93203, type: 3}
   - {fileID: 21300000, guid: d2970036cde39384fa79788f6fd87e66, type: 3}

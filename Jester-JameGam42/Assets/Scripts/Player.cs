@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
@@ -9,6 +11,8 @@ public class Player : MonoBehaviour
     public float healthMultiplier;
     public Animator animator;
     private BoxCollider2D playerBoxCollider;
+    public Text healthNum;
+    public float totalHealth;
 
     [Header("Movement")]
     private float horizontalMovement;
@@ -33,9 +37,10 @@ public class Player : MonoBehaviour
     private void Awake() {
         playerRigidBody = GetComponent<Rigidbody2D>();
         horizontalMovement = 0f;
-        moveSpeedMultiplier = 5f;
+        moveSpeedMultiplier = 7f;
         baseHealth = 100f;
         healthMultiplier = 1f;
+        totalHealth = baseHealth * healthMultiplier;
         maxJumps = 2;
         jumpsRemaining = 2;
         facingRight = true;
@@ -53,11 +58,11 @@ public class Player : MonoBehaviour
     public void Jump(InputAction.CallbackContext context) {
         if (jumpsRemaining > 0) {
             if (context.performed) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 12f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 16f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
             } else if (context.canceled) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 6f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
             }
@@ -88,18 +93,21 @@ public class Player : MonoBehaviour
 
     public void Fire(InputAction.CallbackContext context) {
         // set animation, set blocker
-        if(cardsLeft == 0) {
-            animator.SetFloat("AttackType", 0);
-        } else if (context.performed) {
-            // set animation
-            setAttackType(lookDirection);
-            animator.SetFloat("AttackType", attackType);
-            gameManager.UseDefenceCard(cardsInHandIndex, lookDirection, playerRigidBody.position);
-            // zero or end case
-            if (cardsLeft > 0 && cardsLeft == cardsInHandIndex) {
-                cardsInHandIndex--;
+        if (context.performed) {
+            if(cardsLeft == 0) {
+                animator.SetTrigger("attackNull");
+            } else {
+                // set animation
+                setAttackType(lookDirection);
+                gameManager.UseDefenceCard(cardsInHandIndex, lookDirection, playerRigidBody.position);
+                // edge case
+                if (cardsLeft > 0 && cardsLeft == cardsInHandIndex) {
+                    cardsInHandIndex--;
+                }
+                
             }
         }
+        
     }
 
     public void SelectCardToRight(InputAction.CallbackContext context) {
@@ -121,8 +129,6 @@ public class Player : MonoBehaviour
             }
         }
         
-       
-
     }
 
     public void AlternateFire(InputAction.CallbackContext context) {
@@ -130,14 +136,31 @@ public class Player : MonoBehaviour
     }
 
     private void setAttackType(Vector2 directionLooking) {
-        // look right
-        if (directionLooking.x >= 0) {
-
+        
+        if (directionLooking.x >= 1) {
+            if (!facingRight) {
+                StartCoroutine(FlipTemporarily(1f, 0.2f));
+            }
+            animator.SetTrigger("attackRight");
+        } else if (directionLooking.x <= -1) {
+            if (facingRight) {
+                StartCoroutine(FlipTemporarily(-1f, 0.3f));
+            }
+            animator.SetTrigger("attackLeft");
+        } else if (directionLooking.y >= 1) {
+            animator.SetTrigger("attackUp");
+        } else if (directionLooking.y <= -1) {
+            animator.SetTrigger("attackDown");
+        } else {
+            animator.SetTrigger("attackRight");
         }
-        attackType = 1;
-        // look left
-        // look up
-        // look down
+    }
+
+    private IEnumerator FlipTemporarily(float xDir, float duration) {
+        Vector3 original = transform.localScale;
+        transform.localScale = new Vector3(xDir * Mathf.Abs(original.x), original.y, original.z);
+        yield return new WaitForSeconds(duration);
+        transform.localScale = original;
     }
 
     public void ResetPlayer() {
@@ -150,6 +173,16 @@ public class Player : MonoBehaviour
         GroundChecker();
         animator.SetFloat("xVelocity", Mathf.Abs(playerRigidBody.velocity.x));
         animator.SetFloat("yVelocity", playerRigidBody.velocity.y);
+        
+    }
+
+    public void Knockback(Vector2 directionToKnock, int magnitude) {
+        playerRigidBody.AddForce(directionToKnock*magnitude*500);
+    }
+
+    public void UpdateHealth(float dmgTaken) {
+        totalHealth = totalHealth - dmgTaken;
+        healthNum.text = totalHealth.ToString();
     }
 
     private void FixedUpdate() {   

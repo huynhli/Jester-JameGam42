@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 317222712992245006}
   - component: {fileID: 1679586828963177864}
   - component: {fileID: 5268665450583522728}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: AttackCard
   m_TagString: AttackCard
   m_Icon: {fileID: 0}

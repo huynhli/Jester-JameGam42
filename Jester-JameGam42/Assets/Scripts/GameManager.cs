@@ -27,10 +27,8 @@ public class GameManager : MonoBehaviour {
         randomY = 0f;
         titleScreen.SetActive(true);
         youWinScreen.SetActive(false);
-        Debug.Log("Game manager awake");
         cardsInHand = new List<GameObject>();
-        maxCardsInHand = 3;
-        // AttackCardPrefab.enabled = false;
+        maxCardsInHand = 5;
         // Pause();
         Play();
     }
@@ -89,7 +87,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private Vector2 pickDirectionHelper() {
-        randomX = UnityEngine.Random.Range(-7.5f, 7.5f);
+        randomX = UnityEngine.Random.Range(-7f, 7f);
         randomY = UnityEngine.Random.Range(-2f, 2f);
         return new Vector2(randomX, randomY);
     }
@@ -160,5 +158,18 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    
+    private void FixedUpdate() {
+        if (player.totalHealth <= 0) {
+            EndGame();
+        }
+    }
+
+    private IEnumerator EndGame() {
+        Pause();
+        youWinScreen.SetActive(true);
+        yield return new WaitForSeconds(5f);
+        youWinScreen.SetActive(false);
+        titleScreen.SetActive(true);
+        cardsInHand = new List<GameObject>();
+    }
 }

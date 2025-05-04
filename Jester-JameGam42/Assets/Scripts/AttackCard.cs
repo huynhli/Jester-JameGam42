@@ -59,7 +59,10 @@ public class AttackCard : MonoBehaviour
                 Destroy(other.gameObject);
             }
         } else if (other.CompareTag("Player")) {
-
+            Player playerObject = other.GetComponent<Player>();
+            playerObject.UpdateHealth(cardHealth);
+            playerObject.Knockback(directionToShoot.normalized, cardHealth);
+            Destroy(gameObject);
         }
     }
 
