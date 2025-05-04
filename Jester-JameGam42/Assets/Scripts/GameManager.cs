@@ -140,7 +140,7 @@ public class GameManager : MonoBehaviour {
         }
         int cardsToAdd = Mathf.Min(levelNum + 2, maxCardsInHand - cardPositionInHand);
         for (int i = 0; i < cardsToAdd; i++) {
-            AddCardToHand(12, player.cardsLeft);
+            AddCardToHand(i, player.cardsLeft);
             player.cardsLeft++;
         }
     }
@@ -211,7 +211,7 @@ public class GameManager : MonoBehaviour {
     }
 
 
-    private void FixedUpdate() {
+    private void Update() {
         if (player.totalHealth <= 0) {
             StartCoroutine(Dead());
         }
@@ -221,16 +221,16 @@ public class GameManager : MonoBehaviour {
         if (levelFlowCoroutine != null) {
             StopCoroutine(levelFlowCoroutine);
         }
-        Pause();
         healthBanner.enabled = false;
-        player.enabled = true;
-        player.animator.SetTrigger("died");
+        player.animator.SetBool("died", true);
         yield return new WaitForSeconds(5f); // duration of death animation
         deathScreen.enabled = true;
         yield return new WaitForSeconds(5f);
         deathScreen.enabled = false;
         titleScreen.enabled = true;
         startButton.SetActive(true);
+        player.animator.SetBool("died", false);
+        player.enabled = false;
         cardsInHand.Clear();
         player.Reset();
     }
