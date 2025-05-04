@@ -20,7 +20,7 @@ public class DefenceCard : MonoBehaviour
     }
 
     public void Initialize(int random) {
-        AudioSource.PlayClipAtPoint(spawnSoundClip, transform.position, 4f);
+        SoundManager.instance.PlaySoundFXClip(spawnSoundClip, transform, 4f);
         spriteRenderer.sprite = cardSprites[random];
         spriteNum = random;
         cardHealth = random + 2;

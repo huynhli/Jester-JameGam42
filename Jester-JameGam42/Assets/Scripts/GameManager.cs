@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour {
     private float randomX;
     private float randomY;
     private Coroutine attackSpawnCoroutine;
+    private bool isDead = false;
 
     [Header("Sounds")]
     [SerializeField] private AudioClip handCardSpawnSoundClip;
@@ -57,7 +58,7 @@ public class GameManager : MonoBehaviour {
         youWinScreen.enabled = false;
         creditScreen.enabled = false;
         cardsInHand = new List<GameObject>();
-        maxCardsInHand = 4;
+        maxCardsInHand = 5;
         Pause();
     }
 
@@ -103,9 +104,6 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(RunLevel(2));
-
-        yield return new WaitForSeconds(1f);
-        yield return StartCoroutine(RunLevel(3));
 
         yield return new WaitForSeconds(1f);
         yield return StartCoroutine(RunLevel(3));
@@ -162,7 +160,7 @@ public class GameManager : MonoBehaviour {
             return;
         }
         int cardsToAdd = Mathf.Min(levelNum + 2, maxCardsInHand - cardPositionInHand);
-        AudioSource.PlayClipAtPoint(handCardSpawnSoundClip, transform.position, 10f);
+        SoundManager.instance.PlaySoundFXClip(handCardSpawnSoundClip, transform, 10f);
         for (int i = 0; i < cardsToAdd; i++) {
             int random = UnityEngine.Random.Range(0, 13);
             AddCardToHand(random, player.cardsLeft);
@@ -241,30 +239,39 @@ public class GameManager : MonoBehaviour {
 
 
     private void Update() {
-        if (player.totalHealth <= 0) {
+        if (player.totalHealth <= 0 && !isDead) {
+            isDead = true;
             StartCoroutine(Dead());
         }
     }
 
     private IEnumerator Dead() {
         if (levelFlowCoroutine != null) {
-            StopCoroutine(levelFlowCoroutine);
+        StopCoroutine(levelFlowCoroutine);
         }
+
+        if (attackSpawnCoroutine != null) {
+            StopCoroutine(attackSpawnCoroutine);
+            attackSpawnCoroutine = null;
+        }
+        playerInput.enabled = false;
         healthBanner.enabled = false;
         player.animator.SetBool("died", true);
         foreach (GameObject card in cardsInHand) {
             Destroy(card);
         }
-        yield return new WaitForSeconds(5f); // duration of death animation
+        yield return new WaitForSecondsRealtime(1f); // duration of death animation
         deathScreen.enabled = true;
-        yield return new WaitForSeconds(5f);
-        deathScreen.enabled = false;
+        yield return new WaitForSecondsRealtime(5f);
+        
         titleScreen.enabled = true;
         startButton.SetActive(true);
+        yield return null;
+        deathScreen.enabled = false;
         player.animator.SetBool("died", false);
-        playerInput.enabled = false;
         player.enabled = false;
         cardsInHand.Clear();
         player.Reset();
+        isDead = false;
     }
 }

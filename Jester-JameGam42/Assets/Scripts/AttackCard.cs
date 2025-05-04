@@ -30,7 +30,7 @@ public class AttackCard : MonoBehaviour
         spriteNum = random;
         cardHealth = random + 2;
         directionToShoot = -directionToPlayer;
-        AudioSource.PlayClipAtPoint(spawnSoundClip, transform.position, 3f);
+        SoundManager.instance.PlaySoundFXClip(spawnSoundClip, transform, 0.5f);
         StartCoroutine(MoveAfterDelay());
     }
 
@@ -58,7 +58,7 @@ public class AttackCard : MonoBehaviour
         if (other.CompareTag("Ground")) {
             StartCoroutine(LodgeAndDestroy());
         } else if (other.CompareTag("DefenceCard")) {
-            AudioSource.PlayClipAtPoint(blockedSoundClip, transform.position, 3f);
+            SoundManager.instance.PlaySoundFXClip(blockedSoundClip, transform, 3f);
             DefenceCard defendingCard = other.GetComponent<DefenceCard>();
             int defendingCardHealth = defendingCard.GetHealth();
             if (cardHealth > defendingCardHealth) {
@@ -72,7 +72,7 @@ public class AttackCard : MonoBehaviour
                 Destroy(other.gameObject);
             }
         } else if (other.CompareTag("Player")) {
-            AudioSource.PlayClipAtPoint(playerDmgSoundClip, transform.position, 3f);
+            SoundManager.instance.PlaySoundFXClip(playerDmgSoundClip, transform, 3f);
             Player playerObject = other.GetComponent<Player>();
             playerObject.UpdateHealth(cardHealth);
             playerObject.Knockback(directionToShoot.normalized, cardHealth);

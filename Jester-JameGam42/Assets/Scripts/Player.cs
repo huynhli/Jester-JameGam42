@@ -67,12 +67,11 @@ public class Player : MonoBehaviour
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 17f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
-                // AudioSource.PlayClipAtPoint(jumpSoundClip, transform.position, 4f);
+                SoundManager.instance.PlaySoundFXClip(jumpSoundClip, transform, 4f);
             } else if (context.canceled) {
                 playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
-                // AudioSource.PlayClipAtPoint(jumpSoundClip, transform.position, 2f);
             }
         }
     }
@@ -103,7 +102,7 @@ public class Player : MonoBehaviour
         // set animation, set blocker
         if (context.performed) {
             if(cardsLeft == 0) {
-                // AudioSource.PlayClipAtPoint(emptyAttackSoundClip, transform.position, 4f);
+                SoundManager.instance.PlaySoundFXClip(emptyAttackSoundClip, transform, 4f);
                 animator.SetTrigger("attackNull");
             } else {
                 // set animation
@@ -121,7 +120,7 @@ public class Player : MonoBehaviour
 
     public void SelectCardToRight(InputAction.CallbackContext context) {
         if(context.performed) {
-            // AudioSource.PlayClipAtPoint(selectSoundClip, transform.position, 4f);
+            SoundManager.instance.PlaySoundFXClip(selectSoundClip, transform, 4f);
             if (cardsInHandIndex + 1 == cardsLeft) {
                 cardsInHandIndex = 0;
             } else {
@@ -132,7 +131,7 @@ public class Player : MonoBehaviour
 
     public void SelectCardToLeft(InputAction.CallbackContext context) {
         if(context.performed) {
-            // AudioSource.PlayClipAtPoint(selectSoundClip, transform.position, 4f);
+            SoundManager.instance.PlaySoundFXClip(selectSoundClip, transform, 4f);
              if (cardsInHandIndex == 0) {
             cardsInHandIndex = cardsLeft - 1;
             } else {
@@ -175,7 +174,7 @@ public class Player : MonoBehaviour
     }
 
     public void ResetPlayer() {
-        transform.position = new Vector3(0, 0, 0);
+        transform.position = new Vector3(0, -2, 0);
         playerRigidBody.velocity = Vector2.zero;        // Reset velocity to 0
     }
 
