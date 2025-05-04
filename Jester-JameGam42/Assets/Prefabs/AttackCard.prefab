@@ -99,6 +99,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1af13c42f6e30324099e62e75f48b7bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spawnSoundClip: {fileID: 8300000, guid: 1c09a0b4a479c92408bd6b3f17298089, type: 3}
+  playerDmgSoundClip: {fileID: 8300000, guid: 20c19771dbaa5cd4ab6a5dad59df0830, type: 3}
+  blockedSoundClip: {fileID: 8300000, guid: 94e06e2065e3fce40a7afa319262b811, type: 3}
   attackSprites:
   - {fileID: 21300000, guid: 950f0207dbec94c4eaa8f04e423434d6, type: 3}
   - {fileID: 21300000, guid: 13125a6e9dc90d0408e851202cb20a41, type: 3}

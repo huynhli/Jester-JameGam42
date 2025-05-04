@@ -9,6 +9,7 @@ public class DefenceCard : MonoBehaviour
     public int spriteNum;
     public Sprite[] cardSprites;
     private SpriteRenderer spriteRenderer;
+    [SerializeField] private AudioClip spawnSoundClip;
 
     private void OnEnable() {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -19,15 +20,22 @@ public class DefenceCard : MonoBehaviour
     }
 
     public void Initialize(int random) {
+        AudioSource.PlayClipAtPoint(spawnSoundClip, transform.position, 4f);
         spriteRenderer.sprite = cardSprites[random];
         spriteNum = random;
         cardHealth = random + 2;
     }
     
     public void changeHealth(int newHealth) {
+        if (newHealth == 1) {
+            cardHealth = 2;
+            spriteRenderer.sprite = cardSprites[0];
+            return;
+        }
         cardHealth = newHealth;
         spriteNum = newHealth-2;
         spriteRenderer.sprite = cardSprites[spriteNum];
+        
         spriteRenderer.sortingOrder = spriteRenderer.sortingOrder;
     }
 }

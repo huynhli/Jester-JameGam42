@@ -62,6 +62,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: d96c529b78764904d98b11c2f66e8706, type: 3}
   - {fileID: 21300000, guid: 2c7dfa89df20c044b8ea37c5df9210d2, type: 3}
   - {fileID: 21300000, guid: 9baf4b83f151fda4ea5c4165101fa75a, type: 3}
+  spawnSoundClip: {fileID: 8300000, guid: e228a331ffeddbd4eafb2ed46f9a9657, type: 3}
 --- !u!212 &628562251637088082
 SpriteRenderer:
   m_ObjectHideFlags: 0

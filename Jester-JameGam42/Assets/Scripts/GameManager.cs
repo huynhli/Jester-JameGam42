@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System;
 using System.Collections;
 using System.Linq;
+using UnityEngine.InputSystem;
 
 public class GameManager : MonoBehaviour {
 
     [Header("Player")]
     public Player player;
     private Rigidbody2D playerRigidBody;
+    private PlayerInput playerInput;
 
     [Header("Prefabs")]
     public GameObject DefenceCardPrefab;
@@ -36,12 +38,16 @@ public class GameManager : MonoBehaviour {
     private float randomY;
     private Coroutine attackSpawnCoroutine;
 
+    [Header("Sounds")]
+    [SerializeField] private AudioClip handCardSpawnSoundClip;
     
 
     private void Awake(){
         Application.targetFrameRate = 60;
         randomX = 0f;
-        enabled = false;
+        playerInput = player.GetComponent<PlayerInput>();
+        playerInput.enabled = false;
+        playerRigidBody = player.GetComponent<Rigidbody2D>();
         titleScreen.enabled = true;
         startButton.SetActive(true);
         introScreen.enabled = false;
@@ -51,12 +57,12 @@ public class GameManager : MonoBehaviour {
         youWinScreen.enabled = false;
         creditScreen.enabled = false;
         cardsInHand = new List<GameObject>();
-        maxCardsInHand = 5;
-        Debug.Log("Awake");
+        maxCardsInHand = 4;
         Pause();
     }
 
     public void Play(){
+
         StartCoroutine(GameFlow());
 
     }
@@ -67,6 +73,7 @@ public class GameManager : MonoBehaviour {
 
         healthBanner.enabled = true;
         player.enabled = true;
+        playerInput.enabled = true;
 
         levelFlowCoroutine = StartCoroutine(LevelFlow());
         yield return levelFlowCoroutine;
@@ -79,10 +86,10 @@ public class GameManager : MonoBehaviour {
         titleScreen.enabled = false;
         startButton.SetActive(false);
         introScreen.enabled = true;
-        yield return new WaitForSeconds(4f);
+        yield return new WaitForSeconds(5f);
         introScreen.enabled = false;
         controlsScreen.enabled = true;
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(7f);
         controlsScreen.enabled = false;
     }
 
@@ -95,8 +102,15 @@ public class GameManager : MonoBehaviour {
         yield return StartCoroutine(RunLevel(2));
 
         yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(RunLevel(2));
+
+        yield return new WaitForSeconds(1f);
         yield return StartCoroutine(RunLevel(3));
-        yield return new WaitForSeconds(3f);
+
+        yield return new WaitForSeconds(1f);
+        yield return StartCoroutine(RunLevel(3));
+
+        yield return new WaitForSeconds(4f);
     }
 
     private IEnumerator RunLevel(int levelNumber) {
@@ -117,12 +131,11 @@ public class GameManager : MonoBehaviour {
 
     // Spawn attack cards
     private void SpawnAttackCard(int level) {
-        // lemon juice
         int random = UnityEngine.Random.Range(0, 13);
         bool goodSpotToSpawn = false;
         Vector2 direction = Vector2.left;
         Vector2 directionToPlayer = Vector2.right;
-        playerRigidBody = player.GetComponent<Rigidbody2D>();
+        
         while (!goodSpotToSpawn) {
             direction = pickDirectionHelper();
             directionToPlayer = direction - new Vector2(playerRigidBody.position.x, playerRigidBody.position.y);
@@ -149,8 +162,10 @@ public class GameManager : MonoBehaviour {
             return;
         }
         int cardsToAdd = Mathf.Min(levelNum + 2, maxCardsInHand - cardPositionInHand);
+        AudioSource.PlayClipAtPoint(handCardSpawnSoundClip, transform.position, 10f);
         for (int i = 0; i < cardsToAdd; i++) {
-            AddCardToHand(i, player.cardsLeft);
+            int random = UnityEngine.Random.Range(0, 13);
+            AddCardToHand(random, player.cardsLeft);
             player.cardsLeft++;
         }
     }
@@ -172,21 +187,25 @@ public class GameManager : MonoBehaviour {
         float angle = Mathf.Atan2(lookDirection.y, lookDirection.x) * Mathf.Rad2Deg;
         GameObject summonedDefendCard = Instantiate(DefenceCardPrefab, playerRigidBodyPosition + lookDirection.normalized, Quaternion.Euler(0, 0, angle));
         summonedDefendCard.GetComponent<DefenceCard>().Initialize(selectedCard.spriteNum);
-        Debug.Log(selectedCard.GetHealth());
         Destroy(summonedDefendCard, 1.5f); // destroys object after 1.5 seconds
 
         UpdateCardsInHand(cardInHandIndex); // re-instantiate the hand? or instantiate from index
     }
 
     public void Pause() {
-        Debug.Log("Pause");
         Time.timeScale = 0f; // time doesn't update
-        player.enabled = false;
+        playerInput.enabled = false;
     }
 
     private IEnumerator WinnerFlow() {
         healthBanner.enabled = false;
+        playerInput.enabled = false;
         player.enabled = false;
+        foreach (GameObject card in cardsInHand) {
+            Destroy(card);
+        }
+        cardsInHand.Clear();
+        player.Reset();
         youWinScreen.enabled = true;
         yield return new WaitForSeconds(3f);
         youWinScreen.enabled = false;
@@ -233,6 +252,9 @@ public class GameManager : MonoBehaviour {
         }
         healthBanner.enabled = false;
         player.animator.SetBool("died", true);
+        foreach (GameObject card in cardsInHand) {
+            Destroy(card);
+        }
         yield return new WaitForSeconds(5f); // duration of death animation
         deathScreen.enabled = true;
         yield return new WaitForSeconds(5f);
@@ -240,6 +262,7 @@ public class GameManager : MonoBehaviour {
         titleScreen.enabled = true;
         startButton.SetActive(true);
         player.animator.SetBool("died", false);
+        playerInput.enabled = false;
         player.enabled = false;
         cardsInHand.Clear();
         player.Reset();

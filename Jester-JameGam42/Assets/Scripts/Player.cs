@@ -34,11 +34,16 @@ public class Player : MonoBehaviour
     public GameManager gameManager;
     public Camera mainCamera;
 
+    [Header("Sound FX")]
+    [SerializeField] private AudioClip selectSoundClip;
+    [SerializeField] private AudioClip emptyAttackSoundClip;
+    [SerializeField] private AudioClip jumpSoundClip;
+
     private void OnEnable() {
         playerRigidBody = GetComponent<Rigidbody2D>();
         horizontalMovement = 0f;
         moveSpeedMultiplier = 7f;
-        baseHealth = 100f;
+        baseHealth = 50f;
         healthMultiplier = 1f;
         totalHealth = baseHealth * healthMultiplier;
         maxJumps = 2;
@@ -49,6 +54,7 @@ public class Player : MonoBehaviour
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
         lookDirection = Vector2.right;
         cardsInHandIndex = 0;
+        cardsLeft = 0;
     }
 
     public void Move(InputAction.CallbackContext context) {
@@ -58,13 +64,15 @@ public class Player : MonoBehaviour
     public void Jump(InputAction.CallbackContext context) {
         if (jumpsRemaining > 0) {
             if (context.performed) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 20f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 17f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
+                // AudioSource.PlayClipAtPoint(jumpSoundClip, transform.position, 4f);
             } else if (context.canceled) {
-                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 10f);
+                playerRigidBody.velocity = new Vector2(playerRigidBody.velocity.x, 8f);
                 jumpsRemaining--;
                 animator.SetTrigger("isJumping");
+                // AudioSource.PlayClipAtPoint(jumpSoundClip, transform.position, 2f);
             }
         }
     }
@@ -95,6 +103,7 @@ public class Player : MonoBehaviour
         // set animation, set blocker
         if (context.performed) {
             if(cardsLeft == 0) {
+                // AudioSource.PlayClipAtPoint(emptyAttackSoundClip, transform.position, 4f);
                 animator.SetTrigger("attackNull");
             } else {
                 // set animation
@@ -112,6 +121,7 @@ public class Player : MonoBehaviour
 
     public void SelectCardToRight(InputAction.CallbackContext context) {
         if(context.performed) {
+            // AudioSource.PlayClipAtPoint(selectSoundClip, transform.position, 4f);
             if (cardsInHandIndex + 1 == cardsLeft) {
                 cardsInHandIndex = 0;
             } else {
@@ -122,6 +132,7 @@ public class Player : MonoBehaviour
 
     public void SelectCardToLeft(InputAction.CallbackContext context) {
         if(context.performed) {
+            // AudioSource.PlayClipAtPoint(selectSoundClip, transform.position, 4f);
              if (cardsInHandIndex == 0) {
             cardsInHandIndex = cardsLeft - 1;
             } else {
@@ -195,6 +206,7 @@ public class Player : MonoBehaviour
         playerBoxCollider.size = new Vector2(0.75f, 1.2f);
         lookDirection = Vector2.right;
         cardsInHandIndex = 0;
+        ResetPlayer();
     }
 
     public void UpdateHealth(float dmgTaken) {

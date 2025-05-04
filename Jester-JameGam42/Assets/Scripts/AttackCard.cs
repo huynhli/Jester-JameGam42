@@ -6,6 +6,11 @@ public class AttackCard : MonoBehaviour
 {
     // Start is called before the first frame update
     private int spriteNum;
+    [SerializeField] private AudioClip spawnSoundClip;
+    [SerializeField] private AudioClip playerDmgSoundClip;
+    [SerializeField] private AudioClip blockedSoundClip;
+
+
     private int cardHealth;
     private SpriteRenderer spriteRenderer;
     private Vector2 directionToShoot;
@@ -25,13 +30,21 @@ public class AttackCard : MonoBehaviour
         spriteNum = random;
         cardHealth = random + 2;
         directionToShoot = -directionToPlayer;
+        AudioSource.PlayClipAtPoint(spawnSoundClip, transform.position, 3f);
         StartCoroutine(MoveAfterDelay());
     }
 
     private void changeHealth(int newHealth) {
+        if (newHealth == 1) {
+            cardHealth = 2;
+            spriteRenderer.sprite = attackSprites[0];
+            return;
+        }
         cardHealth = newHealth;
         spriteNum = newHealth-2;
         spriteRenderer.sprite = attackSprites[spriteNum];
+        
+        
         spriteRenderer.sortingOrder = spriteRenderer.sortingOrder;
     }
 
@@ -45,20 +58,21 @@ public class AttackCard : MonoBehaviour
         if (other.CompareTag("Ground")) {
             StartCoroutine(LodgeAndDestroy());
         } else if (other.CompareTag("DefenceCard")) {
+            AudioSource.PlayClipAtPoint(blockedSoundClip, transform.position, 3f);
             DefenceCard defendingCard = other.GetComponent<DefenceCard>();
             int defendingCardHealth = defendingCard.GetHealth();
-            int diff = cardHealth - defendingCardHealth;
             if (cardHealth > defendingCardHealth) {
-                changeHealth(diff);
+                changeHealth(cardHealth - defendingCardHealth);
                 Destroy(other.gameObject);
             } else if (cardHealth < defendingCardHealth) {
-                defendingCard.changeHealth(-diff);
+                defendingCard.changeHealth(defendingCardHealth - cardHealth);
                 Destroy(gameObject);
             } else {
                 Destroy(gameObject);
                 Destroy(other.gameObject);
             }
         } else if (other.CompareTag("Player")) {
+            AudioSource.PlayClipAtPoint(playerDmgSoundClip, transform.position, 3f);
             Player playerObject = other.GetComponent<Player>();
             playerObject.UpdateHealth(cardHealth);
             playerObject.Knockback(directionToShoot.normalized, cardHealth);
@@ -68,7 +82,7 @@ public class AttackCard : MonoBehaviour
 
     private IEnumerator LodgeAndDestroy() {
         attackCardRigidBody.velocity = Vector2.zero;
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 }

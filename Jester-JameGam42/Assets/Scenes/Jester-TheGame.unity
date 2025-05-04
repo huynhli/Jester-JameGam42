@@ -945,7 +945,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 8
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -1165,6 +1165,9 @@ MonoBehaviour:
   cardsLeft: 0
   gameManager: {fileID: 2096246648}
   mainCamera: {fileID: 519420031}
+  selectSoundClip: {fileID: 8300000, guid: 499dc6647d3013842b1c8876528a1ef6, type: 3}
+  emptyAttackSoundClip: {fileID: 8300000, guid: 239f02cf9e1f29b4897e836be1ba7880, type: 3}
+  jumpSoundClip: {fileID: 8300000, guid: e945ef76bc49c6a40a25cc37ecf448e3, type: 3}
 --- !u!95 &247220151
 Animator:
   serializedVersion: 5
@@ -1217,6 +1220,63 @@ Transform:
   m_Children: []
   m_Father: {fileID: 247220146}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &413038748
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1503412505970799362, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_Name
+      value: AttackCard
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367847254976180816, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 165d82fb8c9e32f4cae1b1dbca2b997f, type: 3}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -7074,6 +7134,7 @@ MonoBehaviour:
   youWinScreen: {fileID: 106194822}
   creditScreen: {fileID: 1372370992}
   startButton: {fileID: 938486317}
+  handCardSpawnSoundClip: {fileID: 8300000, guid: 9d4204de6fd1d9c47b1521c1f00c2765, type: 3}
 --- !u!4 &2096246649
 Transform:
   m_ObjectHideFlags: 0
@@ -7105,3 +7166,4 @@ SceneRoots:
   - {fileID: 106194823}
   - {fileID: 1372370993}
   - {fileID: 1864009081}
+  - {fileID: 413038748}

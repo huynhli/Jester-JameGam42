@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 298c9d69fa76ea34d8e60038360f5abe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteNum: 0
   cardSprites:
   - {fileID: 21300000, guid: 950f0207dbec94c4eaa8f04e423434d6, type: 3}
   - {fileID: 21300000, guid: 13125a6e9dc90d0408e851202cb20a41, type: 3}
@@ -139,3 +140,4 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 18b84f94724b77748b9687966d3fa04d, type: 3}
   - {fileID: 21300000, guid: cb109e325a5999a499dbdaf2843dbba9, type: 3}
   - {fileID: 21300000, guid: 22a7f13f29a7829478acd491e0987fe6, type: 3}
+  spawnSoundClip: {fileID: 8300000, guid: 4a1aaac8376bbc9499ff39248d590d36, type: 3}
