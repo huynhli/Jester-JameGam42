@@ -41,6 +41,9 @@ public class GameManager : MonoBehaviour {
 
     [Header("Sounds")]
     [SerializeField] private AudioClip handCardSpawnSoundClip;
+    [SerializeField] private AudioClip titleSoundClip;
+    [SerializeField] private AudioClip gameplaySpawnSoundClip;
+    [SerializeField] private AudioClip winnerSoundClip;
     
 
     private void Awake(){
@@ -51,6 +54,7 @@ public class GameManager : MonoBehaviour {
         playerRigidBody = player.GetComponent<Rigidbody2D>();
         titleScreen.enabled = true;
         startButton.SetActive(true);
+        SoundManager.instance.PlayLoopMusic(titleSoundClip, transform, 0.25f);
         introScreen.enabled = false;
         controlsScreen.enabled = false;
         healthBanner.enabled = false;
@@ -63,7 +67,8 @@ public class GameManager : MonoBehaviour {
     }
 
     public void Play(){
-
+        SoundManager.instance.StopLoopingMusic();
+        SoundManager.instance.PlayLoopMusic(gameplaySpawnSoundClip, transform, 0.25f);
         StartCoroutine(GameFlow());
 
     }
@@ -196,6 +201,8 @@ public class GameManager : MonoBehaviour {
     }
 
     private IEnumerator WinnerFlow() {
+        SoundManager.instance.StopLoopingMusic();
+        SoundManager.instance.PlayLoopMusic(winnerSoundClip, transform, 1f);
         healthBanner.enabled = false;
         playerInput.enabled = false;
         player.enabled = false;
@@ -211,6 +218,8 @@ public class GameManager : MonoBehaviour {
         yield return new WaitForSeconds(5f);
         creditScreen.enabled = false;
         titleScreen.enabled = true;
+        SoundManager.instance.StopLoopingMusic();
+        SoundManager.instance.PlayLoopMusic(titleSoundClip, transform, 0.25f);
         startButton.SetActive(true);
     }
 
@@ -254,6 +263,7 @@ public class GameManager : MonoBehaviour {
             StopCoroutine(attackSpawnCoroutine);
             attackSpawnCoroutine = null;
         }
+        SoundManager.instance.StopLoopingMusic();
         playerInput.enabled = false;
         healthBanner.enabled = false;
         player.animator.SetBool("died", true);
@@ -270,6 +280,7 @@ public class GameManager : MonoBehaviour {
         deathScreen.enabled = false;
         player.animator.SetBool("died", false);
         player.enabled = false;
+        SoundManager.instance.PlaySoundFXClip(titleSoundClip, transform, 1f);
         cardsInHand.Clear();
         player.Reset();
         isDead = false;

@@ -1165,7 +1165,7 @@ MonoBehaviour:
   cardsLeft: 0
   gameManager: {fileID: 2096246648}
   mainCamera: {fileID: 519420031}
-  selector: {fileID: 0}
+  selector: {fileID: 571424626}
   selectSoundClip: {fileID: 8300000, guid: 499dc6647d3013842b1c8876528a1ef6, type: 3}
   emptyAttackSoundClip: {fileID: 8300000, guid: 239f02cf9e1f29b4897e836be1ba7880, type: 3}
   jumpSoundClip: {fileID: 8300000, guid: e945ef76bc49c6a40a25cc37ecf448e3, type: 3}
@@ -1433,6 +1433,90 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 569858714}
   m_CullTransparentMesh: 1
+--- !u!1 &571424626
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 571424628}
+  - component: {fileID: 571424627}
+  m_Layer: 0
+  m_Name: Square (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!212 &571424627
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571424626}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 1, y: 1}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!4 &571424628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 571424626}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4, y: -3.4, z: -1}
+  m_LocalScale: {x: 0.94, y: 0.1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &650000901
 GameObject:
   m_ObjectHideFlags: 0
@@ -2772,15 +2856,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Thanks for playing! I hope you enjoyed.
-
-
-    This game was originally
-    made for Mini Jame Gam #42.
-
-
-    Assets credited to: ExceptRea, Treemolo, and
-    rvros on Itch.io'
+  m_Text: "Thanks for playing! I hope you enjoyed.\n\nThis game was originally designed
+    and developed by Liam Huynh for \nMini Jame Gam #42.\n\nAssets credited to: ExceptRea,
+    Treemolo, and rvros on Itch.io\n\t\t\t\t\t\t   \t\t\tand LUShvalleySound on Unity
+    Asset Store"
 --- !u!222 &1162873651
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2930,7 +3009,7 @@ Canvas:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1187140044}
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 3
   m_RenderMode: 2
   m_Camera: {fileID: 519420031}
@@ -3256,7 +3335,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -450}
+  m_AnchoredPosition: {x: 0, y: -480}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &1400740740
@@ -3318,21 +3397,18 @@ MonoBehaviour:
   m_Text: 'Controls:
 
 
-    WASD to move
+    WASD to move, Space to Jump
 
 
-    Space to Jump
+    Q or E to select a different
+    card in your hand
 
 
-    Q or E to select
-    a different card in your hand
+    Left-click to summon a defensive card from your hand
 
 
-    Left-click to place a defensive card from
-    your hand
-
-
-    Have Fun!'
+    Try
+    not to get hit! Have Fun!'
 --- !u!222 &1400740742
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7124,6 +7200,9 @@ MonoBehaviour:
   creditScreen: {fileID: 1372370992}
   startButton: {fileID: 938486317}
   handCardSpawnSoundClip: {fileID: 8300000, guid: 9d4204de6fd1d9c47b1521c1f00c2765, type: 3}
+  titleSoundClip: {fileID: 8300000, guid: 45dc23c6e773e4bfb80e0c418a6007cf, type: 3}
+  gameplaySpawnSoundClip: {fileID: 8300000, guid: 51c6d14fb431e41378c7d9473cccaa5b, type: 3}
+  winnerSoundClip: {fileID: 8300000, guid: 73493c1f678bf4f18a7174b39872d0bc, type: 3}
 --- !u!4 &2096246649
 Transform:
   m_ObjectHideFlags: 0
@@ -7156,3 +7235,4 @@ SceneRoots:
   - {fileID: 1372370993}
   - {fileID: 1864009081}
   - {fileID: 1930405398}
+  - {fileID: 571424628}

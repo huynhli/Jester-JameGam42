@@ -43,7 +43,7 @@ public class Player : MonoBehaviour
     private void OnEnable() {
         playerRigidBody = GetComponent<Rigidbody2D>();
         horizontalMovement = 0f;
-        moveSpeedMultiplier = 7f;
+        moveSpeedMultiplier = 9f;
         baseHealth = 50f;
         healthMultiplier = 1f;
         totalHealth = baseHealth * healthMultiplier;
