@@ -10,7 +10,6 @@ public class AttackCard : MonoBehaviour
     [SerializeField] private AudioClip playerDmgSoundClip;
     [SerializeField] private AudioClip blockedSoundClip;
 
-
     private int cardHealth;
     private SpriteRenderer spriteRenderer;
     private Vector2 directionToShoot;
