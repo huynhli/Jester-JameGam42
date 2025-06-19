@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 18342550}
+  - component: {fileID: 18342553}
   - component: {fileID: 18342552}
   - component: {fileID: 18342551}
   m_Layer: 0
@@ -638,6 +639,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &18342553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 18342549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594968d3a4a76742b6a10f8597f216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1092429745}
+  parallaxEffect: 10
+  autoMove: 1
+  autoMoveSpeed: 2
+  tileWidth: 10
+  enableLooping: 1
 --- !u!1 &250954213
 GameObject:
   m_ObjectHideFlags: 0
@@ -647,6 +666,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 250954214}
+  - component: {fileID: 250954217}
   - component: {fileID: 250954216}
   - component: {fileID: 250954215}
   m_Layer: 0
@@ -904,6 +924,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &250954217
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 250954213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594968d3a4a76742b6a10f8597f216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1092429745}
+  parallaxEffect: 2
+  autoMove: 1
+  autoMoveSpeed: 2
+  tileWidth: 10
+  enableLooping: 1
 --- !u!1 &418447541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1125,6 +1163,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 540035630}
+  - component: {fileID: 540035633}
   - component: {fileID: 540035632}
   - component: {fileID: 540035631}
   m_Layer: 0
@@ -1368,6 +1407,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &540035633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 540035629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594968d3a4a76742b6a10f8597f216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1092429745}
+  parallaxEffect: 2
+  autoMove: 1
+  autoMoveSpeed: 2
+  tileWidth: 10
+  enableLooping: 1
 --- !u!1 &695130617
 GameObject:
   m_ObjectHideFlags: 0
@@ -1904,6 +1961,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1630783630}
+  - component: {fileID: 1630783633}
   - component: {fileID: 1630783632}
   - component: {fileID: 1630783631}
   m_Layer: 0
@@ -2189,6 +2247,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1630783633
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1630783629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594968d3a4a76742b6a10f8597f216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1092429745}
+  parallaxEffect: 7
+  autoMove: 1
+  autoMoveSpeed: 2
+  tileWidth: 10
+  enableLooping: 1
 --- !u!1 &1659030339
 GameObject:
   m_ObjectHideFlags: 0
@@ -2198,6 +2274,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1659030340}
+  - component: {fileID: 1659030343}
   - component: {fileID: 1659030342}
   - component: {fileID: 1659030341}
   m_Layer: 0
@@ -2479,6 +2556,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1659030343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1659030339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6594968d3a4a76742b6a10f8597f216c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cam: {fileID: 1092429745}
+  parallaxEffect: 5
+  autoMove: 1
+  autoMoveSpeed: 2
+  tileWidth: 10
+  enableLooping: 1
 --- !u!1 &1715962811
 GameObject:
   m_ObjectHideFlags: 0
