@@ -6,6 +6,7 @@ Assets Used:
 [Player](https://rvros.itch.io/animated-pixel-hero)  
 [Music](https://assetstore.unity.com/packages/audio/music/lushvalleysound-fantasy-bgm-free-pack-vol-01-317527)  
 [Sound FX](https://sfbgames.itch.io/chiptone)
+[Extra Details](https://nebula-audio.itch.io/character-footsteps-rock-grass-pack-1)
   
 History  
   
