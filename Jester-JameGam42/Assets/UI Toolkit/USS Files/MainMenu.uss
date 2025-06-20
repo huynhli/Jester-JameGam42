@@ -1,0 +1,46 @@
+.panel {
+    background-color: rgba(171, 7, 7, 0);
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    width: 100%;
+    height: 100%;
+    opacity: 1;
+    overflow: visible;
+    -unity-background-scale-mode: stretch-to-fill;
+    border-left-color: rgba(255, 0, 0, 0);
+    border-right-color: rgba(255, 0, 0, 0);
+    border-top-color: rgba(255, 0, 0, 0);
+    border-bottom-color: rgba(255, 0, 0, 0);
+    scale: 11 1;
+}
+
+.menu {
+}
+
+.unity-button {
+    flex-grow: 1;
+    align-items: center;
+    margin-top: 5%;
+    margin-bottom: 5%;
+    margin-right: 25%;
+    margin-left: 25%;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    font-size: 25px;
+    -unity-font-style: bold;
+    background-color: rgb(245, 244, 244);
+    width: 200px;
+    transition-property: scale;
+    transition-duration: 0.25s;
+}
+
+.unity-button:hover {
+    background-color: rgb(202, 60, 60);
+    scale: 1.2 1.2;
+    align-items: center;
+}
+
+.unity-button:active {
+    background-color: rgb(159, 14, 14);
+}

@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI%20Toolkit/USS%20Files/MainMenu.uss?fileID=7433441132597879392&amp;guid=ad85094bdb2bae744ae168806797d293&amp;type=3#MainMenu" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1; height: auto; width: auto; scale: 1 1; align-items: flex-start; color: rgb(62, 62, 62); background-color: rgba(0, 0, 0, 0);">
+        <ui:VisualElement name="Container" class="menu" style="flex-grow: 1; width: 300px; margin-left: 10%; margin-bottom: 10%; margin-top: 8%; background-color: rgba(0, 0, 0, 0); display: flex; -unity-text-align: upper-center; align-items: center; margin-right: 0%;">
+            <ui:Label tabindex="-1" text="Jester!" parse-escape-sequences="true" display-tooltip-when-elided="true" focusable="false" name="Title" class="title" style="font-size: 70px; color: rgb(195, 0, 0); -unity-font-style: bold; opacity: 0;" />
+            <ui:Button text="Start" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Start" style="opacity: 0;" />
+            <ui:Button text="Options" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Options" style="opacity: 0;" />
+            <ui:Button text="Exit" parse-escape-sequences="true" display-tooltip-when-elided="true" name="Exit" style="opacity: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
