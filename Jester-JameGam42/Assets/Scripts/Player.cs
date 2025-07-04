@@ -89,8 +89,7 @@ public class Player : MonoBehaviour
             playerBoxCollider.offset = new Vector2(-0.05f, -0.11f);
             moveSpeedMultiplier = 5f;
             animator.SetBool("isCrouching", false);
-        }
-        
+        }  
     }
 
     public void Look(InputAction.CallbackContext context) {
@@ -191,12 +190,12 @@ public class Player : MonoBehaviour
         playerRigidBody.velocity = Vector2.zero;        // Reset velocity to 0
     }
 
-    private void Update() {
+    private void Update()
+    {
         playerRigidBody.velocity = new Vector2(horizontalMovement * moveSpeedMultiplier, playerRigidBody.velocity.y);
         GroundChecker();
         animator.SetFloat("xVelocity", Mathf.Abs(playerRigidBody.velocity.x));
         animator.SetFloat("yVelocity", playerRigidBody.velocity.y);
-        
     }
 
     public void Knockback(Vector2 directionToKnock, int magnitude) {
@@ -242,5 +241,4 @@ public class Player : MonoBehaviour
             jumpsRemaining = maxJumps;
         }
     }
-
 }
